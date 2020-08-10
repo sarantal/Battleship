@@ -13,7 +13,7 @@ hits = []
 ships = []
 occupied = []
 gameover = False
-debug = True
+debug = False
 
 
 # Classes
@@ -21,23 +21,19 @@ debug = True
 class Ship:
 
     def __init__(self):
-
         self.x = 0
         self.y = 0
         self.size = 1
         self.heading = 'h'
         self.coords = []
+        
 
     def place(self, size):
-
         self.size = size
         headings = ["h", "v"]
         placement_blocked = True
-
         while placement_blocked == True:
-
             self.coords = []
-
             # random position
             self.heading = random.choice(headings)            
             if self.heading == "h":
@@ -46,7 +42,6 @@ class Ship:
             elif self.heading == "v":
                 self.x = random.randrange(0,8)
                 self.y = random.randrange(0,9-self.size)        
-            
             # check if location is free
             for iter in range(0, self.size):
                 if self.heading == "h":
@@ -54,7 +49,6 @@ class Ship:
                     if (self.x + iter, self.y) in occupied:
                         placement_blocked = True
                         break
-
                 elif self.heading == "v":
                     placement_blocked = False
                     if (self.x, self.y + iter) in occupied:
@@ -93,18 +87,15 @@ class Ship:
 # Functions
 
 def clear():
-
     # for windows
     if os.name == 'nt':
         _ = os.system('cls')
-
     # mac, linux
     else:
         _ = os.system('clear')
 
 
 def draw_cell(column, line):
-
     if column < 8:
         if (column, line) in misses:
             print(" . ", end="|")
@@ -125,8 +116,7 @@ def draw_cell(column, line):
             print("   |")
 
 
-def draw_grid():                        # TODO  print ships/instructions next to the grid
-
+def draw_grid():
     clear()
     print("    1   2   3   4   5   6   7   8   9")
     for line in range(9):
@@ -137,10 +127,8 @@ def draw_grid():                        # TODO  print ships/instructions next to
     print("  +---+---+---+---+---+---+---+---+---+")
 
 
-def check_guess(guess):                 # TODO  better error handling for user input
-
+def check_guess(guess):             # TODO: better error handling for user input
     global gameover
-
     if guess == "quit":
         gameover = True
     else:
@@ -160,7 +148,6 @@ def check_guess(guess):                 # TODO  better error handling for user i
                             if iter not in hits:    # some part of ship is not hit
                                 sunk = False
                                 break
-
                 if hit == True and sunk == True:
                     print("\n     HIT! Ship is destroyed!")                    
                 elif hit == True:
@@ -169,9 +156,7 @@ def check_guess(guess):                 # TODO  better error handling for user i
                     misses.append((x,y))
                     print("\n     Miss")   
 
-
                 # TODO: gameover when all ships destroyed
-
 
         else:
             print("\n     Invalid coordinates!")
